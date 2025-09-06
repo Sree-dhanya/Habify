@@ -38,25 +38,20 @@ const Dashboard = () => {
   const userEmail = localStorage.getItem("userEmail");
   const containerRef = useRef(null);
 
-  const [habits, setHabits] = useState(() => {
-    const stored = localStorage.getItem("habits");
-    return stored ? JSON.parse(stored) : [
-    ];
-  });
-
+  const [habits, setHabits] = useState([]);
   const [quote, setQuote] = useState("");
 
   useEffect(() => {
-    if (!userEmail) return;
-    const stored = localStorage.getItem(`habits_${userEmail}`);
-    if (stored) {
-      try {
-        setHabits(JSON.parse(stored));
-      } catch (e) {
-        console.error("Failed to parse habits from localStorage", e);
-      }
+  if (!userEmail) return;
+  const stored = localStorage.getItem(`habits_${userEmail}`);
+  if (stored) {
+    try {
+      setHabits(JSON.parse(stored));
+    } catch (e) {
+      console.error("Failed to parse habits from localStorage", e);
     }
-  }, [userEmail]);
+  }
+}, [userEmail]);
 
   // Save habits for this user
   useEffect(() => {
