@@ -24,9 +24,10 @@ const AddHabit = () => {
   const [currentHabitId, setCurrentHabitId] = useState(null);
 
   const [habits, setHabits] = useState(() => {
-    const stored = localStorage.getItem("habits");
-    return stored ? JSON.parse(stored) : [];
-  });
+  const stored = userEmail ? localStorage.getItem(`habits_${userEmail}`) : null;
+  return stored ? JSON.parse(stored) : [];
+});
+
 
   // Check if we're editing from location state
   useEffect(() => {
