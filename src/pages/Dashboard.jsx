@@ -87,7 +87,9 @@ const Dashboard = () => {
   const onDeleteHabit = (id) => {
     const updatedHabits = habits.filter(habit => habit.id !== id);
     setHabits(updatedHabits);
-    localStorage.setItem("habits", JSON.stringify(updatedHabits));
+    if (userEmail) {
+    localStorage.setItem(`habits_${userEmail}`, JSON.stringify(updated));
+  }
     toast.success("Habit deleted");
   };
 
@@ -96,7 +98,9 @@ const Dashboard = () => {
       habit.id === id ? { ...habit, ...updates } : habit
     );
     setHabits(updatedHabits);
-    localStorage.setItem("habits", JSON.stringify(updatedHabits));
+    if (userEmail) {
+    localStorage.setItem(`habits_${userEmail}`, JSON.stringify(updated));
+  }
     toast.success("Habit updated");
   };
 
