@@ -41,8 +41,6 @@ const Dashboard = () => {
   const [habits, setHabits] = useState(() => {
     const stored = localStorage.getItem("habits");
     return stored ? JSON.parse(stored) : [
-      { id: 1, name: "Drink 2L Water", emoji: "💧", completed: false, streak: 3 },
-      { id: 2, name: "Meditate 10 min", emoji: "🧘‍♂️", completed: false, streak: 5 },
     ];
   });
 
@@ -108,20 +106,22 @@ const Dashboard = () => {
   };
 
   const toggleHabit = (id) => {
-    setHabits(prev => 
-      prev.map(h => 
-        h.id === id 
-          ? { 
-              ...h, 
-              completed: !h.completed,
-              streak: !h.completed ? (h.streak + 1) : h.streak
-            } 
-          : h
-      )
-    );
-    spawnLeafParticles(document.body);
-    localStorage.setItem("habits", JSON.stringify(habits));
-  };
+  const updated = habits.map(h => 
+    h.id === id 
+      ? { 
+          ...h, 
+          completed: !h.completed,
+          streak: !h.completed ? h.streak + 1 : h.streak
+        } 
+      : h
+  );
+  setHabits(updated);
+  spawnLeafParticles(document.body);
+  if (userEmail) {
+    localStorage.setItem(`habits_${userEmail}`, JSON.stringify(updated));
+  }
+};
+
 
   const HabitList = ({ habits, toggleHabit, onDelete, onEdit }) => (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
